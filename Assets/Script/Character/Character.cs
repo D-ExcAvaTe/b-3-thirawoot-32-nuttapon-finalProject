@@ -1,17 +1,32 @@
-using System.Collections;
+using System;using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum DamageType
+{
+    None,
+    Past,
+    Future
+}
+
 public abstract class Character : MonoBehaviour
 {
-    [SerializeField] private DamageIndicator damageIndicatorPrefab;
+    [Header("Attack Types")]
+    [SerializeField] protected DamageType damageType = DamageType.None;
+    [SerializeField] protected DamageType weaknessType = DamageType.None;
+    
+    [Header("UI Settings")]
+    [SerializeField] protected DamageIndicator damageIndicatorPrefab;
     [SerializeField] public HealthBar healthBar;
     [SerializeField] protected float healthbarOffset;
+    
+    [Header("Particles")]
     [SerializeField] protected GameObject hitParticle;
     [SerializeField] protected GameObject deathParticle;
     
+    [Header("Stats")]
     private int level;
     private float maxExp;
     private float exp;
@@ -68,7 +83,7 @@ public abstract class Character : MonoBehaviour
         set => movementSpeed = value;
     }
 
-    //bonus stat
+    [Header("Buff Stats")]
     public float attackDamageBuff;
     public float attackSpeedBuff;
     public float movementSpeedBuff;
@@ -105,9 +120,13 @@ public abstract class Character : MonoBehaviour
 
     }
 
-    public virtual void TakeDamage(float _damage)
+    public virtual void TakeDamage(float _damage, DamageType _damageType)
     {
-        Health -= _damage;
+        float damageMultiplier = 1;
+        if (_damageType != weaknessType) damageMultiplier = -1;
+
+        float finalDamage = _damage * damageMultiplier;
+        Health -= finalDamage;
         if (IsDead())
         {
             OnDead();
@@ -115,15 +134,19 @@ public abstract class Character : MonoBehaviour
                 Destroy(healthBar.gameObject);
         } 
         
-        Debug.Log($"{this.name} took {_damage} damage. HP = {Health}");
+        Debug.Log($"{this.name} took {finalDamage} damage. HP = {Health}");
         
         Instantiate(hitParticle, this.transform.position, Quaternion.identity);
 
         AudioManager.instance.PlaySFX(2);
 
         DamageIndicator dmgIndicator = Instantiate(damageIndicatorPrefab, this.transform.position, Quaternion.identity);
-        if (_damage > 0) dmgIndicator.Initialize(_damage);
-        else dmgIndicator.Initialize(_damage, true);
+        
+        float dmg = Mathf.Abs(_damage);
+        string dmgText = dmg.ToString("##");
+
+        if (finalDamage > 0) dmgIndicator.Initialize(dmgText);
+        else dmgIndicator.Initialize(dmgText, true);
     }
     public bool IsDead()
     {
@@ -140,12 +163,12 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    public abstract void OnHitWithCharacter(Character target);
+    public abstract void OnHitWithCharacter(Character target, DamageType damageType);
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<Character>() != null)
         {
-            OnHitWithCharacter(other.GetComponent<Character>());
+            OnHitWithCharacter(other.GetComponent<Character>(), damageType);
         }
     }
 

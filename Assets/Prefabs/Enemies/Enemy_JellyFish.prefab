@@ -53,6 +53,11 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -74,15 +79,16 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 882959625
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1505092574, guid: 32ac7727164a7cc4bbef2c3041263b71, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 10d02dfea7e2479458511152fd181f72, type: 3}
+  m_Color: {r: 0.7075472, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.48, y: 0.48}
+  m_Size: {x: 0.24, y: 0.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -90,7 +96,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &1422436516505431985
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -104,6 +110,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -121,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccfde987943704e47878bb1ec11b39b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.5
+  moveSpeed: 1
   stopDistance: 1.5
   avoidanceRadius: 2
   detectionRadius: 999
@@ -140,6 +147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e489da48414515429ec6eef95d90129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageType: 0
+  weaknessType: 1
   damageIndicatorPrefab: {fileID: 6552148686277757100, guid: 8a1c6ebe9f241604ea7d1e169e862a1f, type: 3}
   healthBar: {fileID: 8118518043304838815, guid: 9e65622c3744f6b448e339fe24ab5c21, type: 3}
   healthbarOffset: 0
@@ -163,6 +172,7 @@ CapsuleCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437841279755876775}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -186,7 +196,8 @@ CapsuleCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.1, y: 0.2}
   m_Direction: 0
