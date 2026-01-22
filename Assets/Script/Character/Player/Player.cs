@@ -130,7 +130,9 @@ public class Player : Character
             aaLineDmgMultiplier = 1f;
             aaConeDmgMultiplier = 1f;
         }
-
+        
+        GetAttackPattern().GetComponent<Collider2D>().enabled = false;
+        
         DamageIndicator textIndicator = Instantiate(damageIndicatorPrefab,
             transform.position, Quaternion.identity);
         textIndicator.Initialize(playerAttackPattern.ToString(), false, true);
