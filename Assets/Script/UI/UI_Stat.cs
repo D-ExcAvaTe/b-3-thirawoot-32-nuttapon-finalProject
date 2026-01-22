@@ -25,10 +25,10 @@ public class UI_Stat : MonoBehaviour
         expSlider.value = player.Exp;
         expSlider.maxValue = player.MaxExp;
         
-        textStat.text = $"{Fn(player.Health)}/{Fn(player.MaxHealth)} (+{Fn(player.maxHealthBuff)}%)" +
-                            $"\n{Fn(player.AttackDamage)} (+{Fn(player.attackDamageBuff)}%)" +
-                            $"\n{Fn(player.AttackSpeed)} (+{Fn(player.attackSpeedBuff)})" +
-                            $"\n{Fn(player.MovementSpeed)} (+{Fn(player.movementSpeedBuff)})";
+        textStat.text = $"{Fn(player.Health)}/{Fn(player.MaxHealth)} (+{Fn(player.maxHealthBuffPerLv)}%)" +
+                            $"\n{Fn(player.AttackDamage)} (+{Fn(player.attackDamageBuffPerLv)}%)" +
+                            $"\n{Fn(player.AttackSpeed)} (+{Fn(player.attackSpeedBuffPerLv)})" +
+                            $"\n{Fn(player.MovementSpeed)} (+{Fn(player.movementSpeedBuffPerLv)})";
         textWave.text = $"Wave {enemySpawner.wave}";
 
         if (enemySpawner.waitTimer >= enemySpawner.waitTime)

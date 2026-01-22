@@ -27,6 +27,29 @@ public class Enemy : Character
         canAttack = enemyAttackTimer >= enemyAttackSpeed;
         if (!canAttack) enemyAttackTimer += Time.deltaTime;
     }
+    
+    public override void Init(int _level, bool updateHp = true)
+    {
+        //base.Init(_level, updateHp, baseHp, baseAtk);
+        
+        Level = _level;
+        MaxExp = 10 + (Level * 10f);
+        MaxHealth = (baseHp + (Level * 5)) * (1 + (maxHealthBuffPerLv / 100));
+        AttackDamage = (baseAtk + (Level * 2)) * (1 + (attackDamageBuffPerLv / 100));
+        MovementSpeed = 1 + movementSpeedBuffPerLv;
+        AttackSpeed = 1.5f + attackSpeedBuffPerLv;
+
+        if (updateHp) Health = MaxHealth;
+
+        Debug.Log(
+            $"{this.name} level = {Level} , Hp = {Health}/{MaxHealth}, Damage = {AttackDamage}, Max EXP = {MaxExp}, exp = {Exp} ");
+
+        healthBar.Init(Health, MaxHealth, Level);
+
+        if (IsExpOverload()) LevelUp();
+
+    }
+    
     public override void TakeDamage(float _damage, DamageType type)
     {
         base.TakeDamage(_damage, type);

@@ -16,10 +16,10 @@ public class StatBuff : Buff
 
         if (player != null)
         {
-            player.attackDamageBuff += attackDamageIncrease;
-            player.movementSpeedBuff += movementSpeedIncrease;
-            player.attackSpeedBuff += attackSpeedIncrease;
-            player.maxHealthBuff += healthIncrease;
+            player.attackDamageBuffPerLv += attackDamageIncrease;
+            player.movementSpeedBuffPerLv += movementSpeedIncrease;
+            player.attackSpeedBuffPerLv += attackSpeedIncrease;
+            player.maxHealthBuffPerLv += healthIncrease;
 
             Debug.Log($"Buff applied: +{attackDamageIncrease} Attack, +{movementSpeedIncrease} Movement Speed, +{healthIncrease} Health.");
 
@@ -33,10 +33,10 @@ public class StatBuff : Buff
 
         if (player != null)
         {
-            player.attackDamageBuff -= attackDamageIncrease;
-            player.movementSpeedBuff -= movementSpeedIncrease;
-            player.attackSpeedBuff -= attackSpeedIncrease;
-            player.maxHealthBuff -= healthIncrease;
+            player.attackDamageBuffPerLv -= attackDamageIncrease;
+            player.movementSpeedBuffPerLv -= movementSpeedIncrease;
+            player.attackSpeedBuffPerLv -= attackSpeedIncrease;
+            player.maxHealthBuffPerLv -= healthIncrease;
 
             Debug.Log("Buff removed.");
         }

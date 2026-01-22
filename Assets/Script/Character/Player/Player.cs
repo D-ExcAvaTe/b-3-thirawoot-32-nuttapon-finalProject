@@ -32,7 +32,7 @@ public class Player : Character
     public override void Start()
     {
         base.Start();
-        Init(1,true,90,5);
+        Init(1,true);
         playerController = GetComponent<PlayerController>();
         
         healthBar.HealthBarColor(new Color32(0, 255, 0, 255));
@@ -41,6 +41,28 @@ public class Player : Character
         //update all
         UpdateAttackAreaAttack();
         UpdateAttackAreaAttackColor();
+    }
+
+    public override void Init(int _level, bool updateHp = true)
+    {
+        //base.Init(_level, updateHp, baseHp, baseAtk);
+        
+        Level = _level;
+        MaxExp = 10 + (Level * 10f);
+        MaxHealth = (baseHp + (Level * 5)) * (1 + (maxHealthBuffPerLv / 100));
+        AttackDamage = (baseAtk + (Level * 2)) * (1 + (attackDamageBuffPerLv / 100));
+        MovementSpeed = 1 + movementSpeedBuffPerLv;
+        AttackSpeed = 1.5f + attackSpeedBuffPerLv;
+
+        if (updateHp) Health = MaxHealth;
+
+        Debug.Log(
+            $"{this.name} level = {Level} , Hp = {Health}/{MaxHealth}, Damage = {AttackDamage}, Max EXP = {MaxExp}, exp = {Exp} ");
+
+        healthBar.Init(Health, MaxHealth, Level);
+
+        if (IsExpOverload()) LevelUp();
+
     }
 
     public override void TakeDamage(float _damage, DamageType type)
@@ -154,4 +176,6 @@ public class Player : Character
         
         UpdateAttackAreaAttackColor();
     }
+
+
 }

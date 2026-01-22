@@ -83,11 +83,15 @@ public abstract class Character : MonoBehaviour
         set => movementSpeed = value;
     }
 
+    [Header("Base Stats")]
+    [SerializeField] protected float baseHp = 10f;
+    [SerializeField] protected float baseAtk = 1f;
+        
     [Header("Buff Stats")]
-    public float attackDamageBuff;
-    public float attackSpeedBuff;
-    public float movementSpeedBuff;
-    public float maxHealthBuff;
+    public float attackDamageBuffPerLv;
+    public float attackSpeedBuffPerLv;
+    public float movementSpeedBuffPerLv;
+    public float maxHealthBuffPerLv;
     public virtual void Start()
     {
         healthBar = Instantiate(healthBar,
@@ -101,14 +105,14 @@ public abstract class Character : MonoBehaviour
         
     }
 
-    public void Init(int _level, bool updateHp = true, float baseHp = 10, float baseAtk = 1)
+    public virtual void Init(int _level, bool updateHp = true)
     {
         Level = _level;
         maxExp = 10 +  ( Level * 10f );
-        MaxHealth = (baseHp + (Level * 5)) * (1 + (maxHealthBuff / 100));
-        AttackDamage = (baseAtk + (Level * 2)) * (1 + (attackDamageBuff / 100));
-        MovementSpeed = 1 + movementSpeedBuff;
-        AttackSpeed = 1.5f + attackSpeedBuff;
+        MaxHealth = (baseHp + (Level * 5)) * (1 + (maxHealthBuffPerLv / 100));
+        AttackDamage = (baseAtk + (Level * 2)) * (1 + (attackDamageBuffPerLv / 100));
+        MovementSpeed = 1 + movementSpeedBuffPerLv;
+        AttackSpeed = 1.5f + attackSpeedBuffPerLv;
 
         if (updateHp) Health = maxHealth;
         
