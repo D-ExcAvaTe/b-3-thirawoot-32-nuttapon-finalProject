@@ -9,11 +9,14 @@ public abstract class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image fillColor; 
     [SerializeField] private Slider healthBarSlider;
+    [SerializeField] private Slider overHealSlider;
     [SerializeField] private TextMeshProUGUI textLevel;
-    public void Init(float _health, float _maxHealth, int _level)
+    public void Init(float _health, float _maxHealth, int _level, float _overHeal, float _maxOverheal)
     {
         healthBarSlider.maxValue = _maxHealth;
         healthBarSlider.value = _health;
+
+        overHealSlider.value = _overHeal / _maxOverheal;
 
         textLevel.text = $"Lvl.{_level}";
     }

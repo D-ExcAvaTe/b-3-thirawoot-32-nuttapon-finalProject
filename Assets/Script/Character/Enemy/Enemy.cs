@@ -44,7 +44,7 @@ public class Enemy : Character
         Debug.Log(
             $"{this.name} level = {Level} , Hp = {Health}/{MaxHealth}, Damage = {AttackDamage}, Max EXP = {MaxExp}, exp = {Exp} ");
 
-        healthBar.Init(Health, MaxHealth, Level);
+        healthBar.Init(Health, MaxHealth, Level, CurrentOverHeal, MaxOverheal);
 
         if (IsExpOverload()) LevelUp();
 

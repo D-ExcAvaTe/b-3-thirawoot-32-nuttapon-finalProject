@@ -55,6 +55,20 @@ public abstract class Character : MonoBehaviour
     public float Exp { get => exp; set => exp = value; }
     public float MaxExp { get => maxExp; set => maxExp = value; }
     public float MaxHealth { get => maxHealth; set => maxHealth = value; }
+
+    [Header("Overheal setting")] [SerializeField]
+    protected bool enableOverheal = true;
+    [SerializeField] private float currentOverheal = 0f;
+    [SerializeField] protected float maxOverHealMultiplier = 3f;
+
+    public float CurrentOverHeal
+    {
+        get => currentOverheal;
+    }
+    public float MaxOverheal
+    {
+        get => maxHealth*maxOverHealMultiplier;
+    }
     public float Health
     {
         get => health;
@@ -63,16 +77,26 @@ public abstract class Character : MonoBehaviour
             if (value < 0)
             {
                 health = 0;
-            }else if (value > MaxHealth)
+            }
+            else if (value > MaxHealth)
             {
+                if (enableOverheal)
+                {
+                    float overflow = value - MaxHealth;
+                    currentOverheal += overflow;
+                    
+                    if(currentOverheal > MaxOverheal) 
+                        currentOverheal = MaxOverheal;
+                }
                 health = MaxHealth;
             }
             else
             {
                 health = value;
             }
-            healthBar.Init(Health, MaxHealth, Level);
             
+            if(healthBar != null)
+                healthBar.Init(Health, MaxHealth, Level, CurrentOverHeal, MaxOverheal);
         }
     }
     public float AttackDamage { get => attack; set => attack = value; }
@@ -114,11 +138,15 @@ public abstract class Character : MonoBehaviour
         MovementSpeed = 1 + movementSpeedBuffPerLv;
         AttackSpeed = 1.5f + attackSpeedBuffPerLv;
 
-        if (updateHp) Health = maxHealth;
+        if (updateHp)
+        {
+            Health = maxHealth;
+            currentOverheal = 0;
+        }
         
         Debug.Log($"{this.name} level = {Level} , Hp = {Health}/{MaxHealth}, Damage = {AttackDamage}, Max EXP = {maxExp}, exp = {Exp} ");
         
-        healthBar.Init(Health, MaxHealth, Level);
+        healthBar.Init(Health, MaxHealth, Level, CurrentOverHeal,MaxOverheal);
         
         if (IsExpOverload()) LevelUp();
 
@@ -130,7 +158,30 @@ public abstract class Character : MonoBehaviour
         if (_damageType != weaknessType) damageMultiplier = -1;
 
         float finalDamage = _damage * damageMultiplier;
-        Health -= finalDamage;
+
+        if (finalDamage > 0)
+        {
+            if (currentOverheal > 0)
+            {
+                currentOverheal -= finalDamage;
+
+                if (currentOverheal < 0)
+                {
+                    float remainingDamage = Mathf.Abs(currentOverheal);
+                    Health -= remainingDamage;
+                    currentOverheal = 0;
+                }
+            }
+            else
+            {
+                Health -= finalDamage;
+            }
+        }
+        else
+        {
+            Health -= finalDamage;
+        }
+        
         if (IsDead())
         {
             OnDead();
@@ -138,9 +189,12 @@ public abstract class Character : MonoBehaviour
                 Destroy(healthBar.gameObject);
         } 
         
-        Debug.Log($"{this.name} took {finalDamage} damage. HP = {Health}");
+        if (healthBar != null)
+            healthBar.Init(Health, MaxHealth, Level, CurrentOverHeal, MaxOverheal);
+
+        Debug.Log($"{this.name} took {finalDamage} damage. HP = {Health}, Overheal = {CurrentOverHeal}");
         
-        Instantiate(hitParticle, this.transform.position, Quaternion.identity);
+        if(hitParticle) Instantiate(hitParticle, this.transform.position, Quaternion.identity);
 
         AudioManager.instance.PlaySFX(2);
 

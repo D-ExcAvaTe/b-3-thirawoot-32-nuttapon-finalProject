@@ -563,10 +563,15 @@ MonoBehaviour:
   healthbarOffset: 0.3
   hitParticle: {fileID: 140978776056815191, guid: 0a896c4b35754904bac3c10992e7bcb6, type: 3}
   deathParticle: {fileID: 2314263955532508957, guid: 65ea7ef91da7b754092f7d998eb13654, type: 3}
-  attackDamageBuff: 0
-  attackSpeedBuff: 0
-  movementSpeedBuff: 0
-  maxHealthBuff: 0
+  enableOverheal: 0
+  currentOverheal: 0
+  maxOverHealMultiplier: 3
+  baseHp: 10
+  baseAtk: 1
+  attackDamageBuffPerLv: 0
+  attackSpeedBuffPerLv: 0
+  movementSpeedBuffPerLv: 0
+  maxHealthBuffPerLv: 0
   playerAttackPattern: 0
   areaOfAttackLine: {fileID: 7586058717918745734}
   areaOfAttackCone: {fileID: 2235198243801571911}
