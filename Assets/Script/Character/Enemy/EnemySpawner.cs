@@ -33,13 +33,17 @@ public class EnemySpawner : MonoBehaviour
     }
     private IEnumerator SpawnDelay()
     {
-        while (BuffInventory.instance.isGamePause)
-            yield return null;
+        /*while (BuffInventory.instance.isGamePause)
+            yield return null;*/
         
         if (currentEnemies > 0)
         {
             for (int i = 0; i < maxEnemy; i++)
             {
+                // รอ pause
+                while (BuffInventory.instance.isGamePause)
+                    yield return null;
+
                 Debug.Log("new summon");
                 SpawnEnemy();
                 currentEnemies--;
@@ -61,9 +65,35 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
+            // รอ pause
+            while (BuffInventory.instance.isGamePause)
+                yield return null;
+
             NewWave();
-            yield return new WaitForSeconds(maxEnemy * spawnDelay);
-            yield return new WaitForSeconds(waitTime);
+            /*yield return new WaitForSeconds(maxEnemy * spawnDelay); -->1
+            yield return new WaitForSeconds(waitTime);                -->2 */
+            // รอ wave ก้็ต้อง check pause
+            float waveTime = maxEnemy * spawnDelay;
+            float timer = 0f;
+
+            while(timer < waveTime) // -->1
+        {
+                if (!BuffInventory.instance.isGamePause)
+                {
+                    timer += Time.deltaTime;
+                }
+                yield return null;
+            }
+
+            timer = 0f; // -->2
+            while (timer < waitTime)
+            {
+                if (!BuffInventory.instance.isGamePause)
+                {
+                    timer += Time.deltaTime;
+                }
+                yield return null;
+            }
         }
     }
 }
