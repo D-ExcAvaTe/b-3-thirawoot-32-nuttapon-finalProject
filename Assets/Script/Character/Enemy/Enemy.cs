@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Enemy : Character
 {
-    [SerializeField] private Animator anim;
+    [SerializeField] private GameObject normalModeVisuals;
+    [SerializeField] private GameObject inactiveModeVisuals;
+    
     [SerializeField] private float enemyAttackSpeed = 1f;
     
     private float enemyAttackTimer;
@@ -18,9 +22,24 @@ public class Enemy : Character
     {
         base.Start();
         healthBar.HealthBarColor(new Color32(255, 0, 0, 255));
+        
+        if(spawnParticle) Instantiate(spawnParticle, this.transform.position, Quaternion.identity);
         //anim.GetComponent<Animator>();
+        
+        UpdateEnemyVisuals(Player.CurrentDamageType);
     }
 
+    private void OnEnable()
+    {
+        Player.OnPlayerDamageTypeChanged += UpdateEnemyVisuals;
+    }
+    private void UpdateEnemyVisuals(DamageType playerCurrentType)
+    {
+        bool isVulnerable = (playerCurrentType == weaknessType);
+
+        if (normalModeVisuals) normalModeVisuals.SetActive(isVulnerable);
+        if (inactiveModeVisuals) inactiveModeVisuals.SetActive(!isVulnerable);
+    }
     public override void Update()
     {
         base.Update();
@@ -41,8 +60,7 @@ public class Enemy : Character
 
         if (updateHp) Health = MaxHealth;
 
-        Debug.Log(
-            $"{this.name} level = {Level} , Hp = {Health}/{MaxHealth}, Damage = {AttackDamage}, Max EXP = {MaxExp}, exp = {Exp} ");
+        //Debug.Log($"{this.name} level = {Level} , Hp = {Health}/{MaxHealth}, Damage = {AttackDamage}, Max EXP = {MaxExp}, exp = {Exp} ");
 
         healthBar.Init(Health, MaxHealth, Level, CurrentOverHeal, MaxOverheal);
 
@@ -53,9 +71,14 @@ public class Enemy : Character
     public override void TakeDamage(float _damage, DamageType type)
     {
         base.TakeDamage(_damage, type);
-        anim.SetTrigger("HurtTrigger");
 
-        if (IsDead()) Destroy(this.gameObject);
+        //anim.SetTrigger("HurtTrigger");
+
+        if (IsDead())
+        {
+            deathFeedback.PlayFeedbacks();
+            Destroy(this.gameObject);
+        }
     }
     public void OnTriggerStay2D(Collider2D other)
     {
@@ -74,8 +97,7 @@ public class Enemy : Character
     }
     public override void OnDead()
     {
-        Debug.Log("OnDead used");
-        Destroy(this.gameObject);
+        Player.OnPlayerDamageTypeChanged -= UpdateEnemyVisuals;
         
         Instantiate(deathParticle, this.transform.position, Quaternion.identity);
         
@@ -84,5 +106,9 @@ public class Enemy : Character
         if (powerUpDropChance >= Random.Range(0, 100))
             Instantiate(powerUps[Random.Range(0, powerUps.Count)], this.transform.position, Quaternion.identity);
         
+        if (ParticleDropAttractor.instance != null)
+            ParticleDropAttractor.instance.SpawnLoot(this.transform.position);
+        //Debug.Log("OnDead used");
+        Destroy(this.gameObject);
     }
 }

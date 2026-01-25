@@ -11,14 +11,19 @@ public class BuffIcon : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textBuffDescription;
     [SerializeField] private Image iconBuff;
     [SerializeField] private GameObject[] stars;
+    
+    [Header("Rarity preferences")]
+    [SerializeField] private Image buffRarityBackground;
+    [SerializeField] private Color32 colorRare, colorEpic, colorLegend;
+    [SerializeField] private GameObject glintObj;
+    private Buff currentBuff;
 
-    public Buff currentBuff;
     public void Init(Buff buffData)
     {
         buffData.GetDescription();
 
         currentBuff = buffData;
-        
+
         textBuffName.text = currentBuff.buffName;
         textBuffDescription.text = currentBuff.description;
         iconBuff.sprite = currentBuff.buffIcon;
@@ -28,21 +33,26 @@ public class BuffIcon : MonoBehaviour
 
         int e = 0;
 
+        glintObj.SetActive(false);
+        Color32 clr = colorRare;
         if (currentBuff.rarity == BuffRarity.Rare)
         {
-            textBuffName.color = new Color32(148, 255, 155, 255);
+            clr = colorRare;
             e = 1;
         }
         else if (currentBuff.rarity == BuffRarity.Epic)
         {
-            textBuffName.color = new Color32(230, 148, 255, 255);
+            clr = colorEpic;
             e = 2;
         }
         else if (currentBuff.rarity == BuffRarity.Legend)
         {
-            textBuffName.color = new Color32(255, 221, 148, 255);
+            clr = colorLegend;
             e = 3;
+            glintObj.SetActive(true);
         }
+        buffRarityBackground.color = clr;
+
 
         for (int i = 0; i < e; i++)
             stars[i].SetActive(true);

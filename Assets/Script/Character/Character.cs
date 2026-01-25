@@ -1,8 +1,10 @@
 using System;using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum DamageType
 {
@@ -22,9 +24,6 @@ public abstract class Character : MonoBehaviour
     [SerializeField] public HealthBar healthBar;
     [SerializeField] protected float healthbarOffset;
     
-    [Header("Particles")]
-    [SerializeField] protected GameObject hitParticle;
-    [SerializeField] protected GameObject deathParticle;
     
     [Header("Stats")]
     private int level;
@@ -116,6 +115,20 @@ public abstract class Character : MonoBehaviour
     public float attackSpeedBuffPerLv;
     public float movementSpeedBuffPerLv;
     public float maxHealthBuffPerLv;
+
+
+    [Header("Particles")]
+    [SerializeField] protected GameObject hitParticle;
+    [SerializeField] protected GameObject healParticle,spawnParticle,deathParticle;
+
+    [Header("Feedbacks")]
+    [SerializeField] protected MMF_Player hitFeedback;
+    [SerializeField] protected MMF_Player attackFeedback, spawnFeedback,deathFeedback;
+
+    [Header("SFX Feedbacks")]
+    [SerializeField] protected MMF_Player hitSfxFeedback;
+    [SerializeField] protected MMF_Player healSfxFeedback;
+    
     public virtual void Start()
     {
         healthBar = Instantiate(healthBar,
@@ -176,10 +189,15 @@ public abstract class Character : MonoBehaviour
             {
                 Health -= finalDamage;
             }
+            
+            if(hitParticle) Instantiate(hitParticle, this.transform.position, Quaternion.identity);
+            if (hitSfxFeedback) hitSfxFeedback.PlayFeedbacks();
         }
         else
         {
             Health -= finalDamage;
+            if(healParticle) Instantiate(healParticle, this.transform.position, Quaternion.identity);
+            if (healSfxFeedback) healSfxFeedback.PlayFeedbacks();
         }
         
         if (IsDead())
@@ -194,9 +212,9 @@ public abstract class Character : MonoBehaviour
 
         Debug.Log($"{this.name} took {finalDamage} damage. HP = {Health}, Overheal = {CurrentOverHeal}");
         
-        if(hitParticle) Instantiate(hitParticle, this.transform.position, Quaternion.identity);
-
-        AudioManager.instance.PlaySFX(2);
+        if (hitFeedback) hitFeedback.PlayFeedbacks();
+        
+        //AudioManager.instance.PlaySFX(2);
 
         DamageIndicator dmgIndicator = Instantiate(damageIndicatorPrefab, this.transform.position, Quaternion.identity);
         
@@ -242,10 +260,12 @@ public abstract class Character : MonoBehaviour
         Health = MaxHealth * previousHpPercent;
         
         Debug.Log("Level UP!!!");
-        AudioManager.instance.PlaySFX(7);
+        //AudioManager.instance.PlaySFX(7);
         
         UI_LevelUp.instance.buffToGetAmount++;
         UI_LevelUp.instance.ShowLevelUpPanel();
+        
+        Instantiate(spawnParticle, this.transform.position, Quaternion.identity);
     }
     public void GiveExp(float _exp) 
     {

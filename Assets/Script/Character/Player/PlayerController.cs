@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using MoreMountains.Feedbacks;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,18 +13,22 @@ public class PlayerController : MonoBehaviour
 
    [SerializeField] private float slowSpeed = 0f; 
    [SerializeField] private float stopDistance = 2f; 
-   [SerializeField] private float rotationAngle = 45f; 
-   [Space]
+   [SerializeField] private float rotationAngle = 45f;
    [SerializeField] private float dashSpeed = 15f; 
    [SerializeField] private float dashCooldown = 2f; 
-   [SerializeField] private float dashDuration = 0.2f; 
+   [SerializeField] private float dashDuration = 0.2f;
+
+   [FormerlySerializedAs("weaponTransformParebt")]
+   [Space]
+   [SerializeField] private GameObject weaponTransformParent;
    [SerializeField] private float rotationSpeedMultiplier = 3f;
 
    [Space]
+   
    [SerializeField] private GameObject dashParticle;
-   [SerializeField] private GameObject attackParticle;
+   [SerializeField] private MMF_Player dashFeedback, attackFeedback;
 
-    private Vector3 movement;
+   private Vector3 movement;
    
     private Vector3 targetPosition;
     public bool isDashing = false;
@@ -45,12 +51,13 @@ public class PlayerController : MonoBehaviour
     {
         if (BuffInventory.instance.isGamePause) return;
         
-        HandleState();
         HandleInput();
         HandleCooldown();
         
         MoveCharacter();
-        MoveKeyboard();
+        MoveKeyboard(); 
+
+        HandleState();
     }
 
     private void HandleState()
@@ -84,14 +91,17 @@ public class PlayerController : MonoBehaviour
             
             isDashing = true;
             dashTimeLeft = dashDuration;
+            
+            dashFeedback.PlayFeedbacks();
         }
-        if ((Input.GetButtonDown("Fire1")|| Input.GetKeyDown(KeyCode.E)) && !isAttacking)
+        if (Input.GetButton("Fire1") && !isAttacking)
         {
             
-            AudioManager.instance.PlaySFX(Random.Range(4,7));
+            //AudioManager.instance.PlaySFX(Random.Range(4,7));
             //Instantiate(attackParticle, this.transform.position, Quaternion.identity);
 
             TriggerAttack();
+            attackFeedback.PlayFeedbacks();
             isAttacking = true;
             attackTimer = 0;
 
@@ -104,8 +114,7 @@ public class PlayerController : MonoBehaviour
         // }
         
         //switch pattern
-        if (Input.GetKeyDown(KeyCode.Space)) player.ToggleSwitchAttackPattern();
-        if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetKeyDown(KeyCode.Q)) player.ToggleSwitchDamageType();
+        if (Input.GetKeyDown(KeyCode.Mouse1)) player.ToggleSwitchAttackPattern();
         
         //switch damage type
     }
@@ -113,11 +122,15 @@ public class PlayerController : MonoBehaviour
     void MoveKeyboard()
     {
         movement = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0).normalized;
+        
+        isWalking = movement.sqrMagnitude > 0.01f; 
+
         transform.position += movement * player.MovementSpeed * Time.deltaTime;
     }
+
     void MoveCharacter()
     {
-        
+
         if (isDashing)
         {
             Dash();
@@ -126,13 +139,9 @@ public class PlayerController : MonoBehaviour
 
         float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
 
-        float currentSpeed = Mathf.Lerp(slowSpeed, player.MovementSpeed, distanceToTarget / stopDistance);
-
-        isWalking = (currentSpeed > 0.5);
-        
         if (distanceToTarget < 0.1f)
         {
-            transform.rotation = Quaternion.identity;
+            weaponTransformParent.transform.rotation = Quaternion.identity;
             return;
         }
 
@@ -141,7 +150,7 @@ public class PlayerController : MonoBehaviour
         //transform.position += direction * currentSpeed * Time.deltaTime;
 
         Vector3 localScale = transform.localScale;
-        if (Mathf.Abs(direction.x) > 0.1f) 
+        if (Mathf.Abs(direction.x) > 0.1f)
         {
             if (direction.x < 0 && !isFlipped)
             {
@@ -156,10 +165,17 @@ public class PlayerController : MonoBehaviour
                 //transform.rotation = Quaternion.identity;
             }
         }
+
         transform.localScale = localScale;
 
-        float targetRotationZ = (isFlipped ? -rotationAngle : rotationAngle) * direction.y; 
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, targetRotationZ), Time.deltaTime * player.MovementSpeed * rotationSpeedMultiplier);
+        float targetRotationZ = (isFlipped ? -rotationAngle : rotationAngle) * direction.y;
+
+        // FIX: Use weaponTransformParent.transform.rotation as the starting point (first argument)
+        weaponTransformParent.transform.rotation = Quaternion.Lerp(
+            weaponTransformParent.transform.rotation, // <--- CHANGED THIS
+            Quaternion.Euler(0, 0, targetRotationZ),
+            Time.deltaTime * player.MovementSpeed * rotationSpeedMultiplier
+        );
     }
 
     void Dash()
