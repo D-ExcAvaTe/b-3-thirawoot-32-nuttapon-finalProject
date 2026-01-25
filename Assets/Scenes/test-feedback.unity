@@ -43926,6 +43926,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 4988420197238770900}
   panel: {fileID: 2126690985}
+  sceneName: 
 --- !u!1 &1924759492
 GameObject:
   m_ObjectHideFlags: 0

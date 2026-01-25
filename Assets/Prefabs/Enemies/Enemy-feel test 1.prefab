@@ -115,7 +115,7 @@ MonoBehaviour:
   randomMoveRadius: 3
   randomMoveInterval: 2
   player: {fileID: 0}
-  glitchSpeedMultiplier: 0.15
+  glitchSpeedMultiplier: -0.75
   overhealSpeedMultiplier: 1.25
 --- !u!114 &7196943526527513067
 MonoBehaviour:
