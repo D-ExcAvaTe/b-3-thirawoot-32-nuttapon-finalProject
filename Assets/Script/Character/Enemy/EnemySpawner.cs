@@ -56,7 +56,7 @@ public class EnemySpawner : MonoBehaviour
         waitTimer = waitTime;
         Debug.Log("New wave");
         wave++;
-        maxEnemy = (wave * 4) + 5;
+        maxEnemy = (wave * 15) + 5;
         currentEnemies = maxEnemy;
         enemyLevel = ( wave + 1 ) * 2; 
         StartCoroutine(SpawnDelay());

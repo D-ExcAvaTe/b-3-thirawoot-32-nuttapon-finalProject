@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour
    [SerializeField] private float slowSpeed = 0f; 
    [SerializeField] private float stopDistance = 2f; 
    [SerializeField] private float rotationAngle = 45f;
-   [SerializeField] private float dashSpeed = 15f; 
+   [SerializeField] private float dashSpeed = 15f;
+   private float currentDashCooldownTime;
    [SerializeField] private float dashCooldown = 2f; 
    [SerializeField] private float dashDuration = 0.2f;
 
@@ -67,13 +68,19 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCooldown()
     {
+        // ส่วนของ Attack (โค้ดเดิม)
         if (attackTimer <= 1)
             attackTimer += Time.deltaTime*(player.AttackSpeed/2);
         else
             isAttacking = false;
         
         player.healthBar.InitAtkSpd(attackTimer,1);
-        
+
+        // --- ส่วนที่เพิ่ม: นับถอยหลัง Dash Cooldown ---
+        if (currentDashCooldownTime > 0)
+        {
+            currentDashCooldownTime -= Time.deltaTime;
+        }
     }
 
     void HandleInput()
@@ -83,7 +90,7 @@ public class PlayerController : MonoBehaviour
         targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPosition.z = 0;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && currentDashCooldownTime <= 0)
         {
             AudioManager.instance.PlaySFX(3);
             
@@ -91,6 +98,7 @@ public class PlayerController : MonoBehaviour
             
             isDashing = true;
             dashTimeLeft = dashDuration;
+            currentDashCooldownTime = dashCooldown; // <--- เริ่มนับ Cooldown ใหม่ตรงนี้
             
             dashFeedback.PlayFeedbacks();
         }

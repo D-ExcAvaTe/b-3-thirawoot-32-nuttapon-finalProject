@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: BuffAtk3
   m_EditorClassIdentifier: 
   buffName: Attack Damage
-  description: 'Attack Damage + 25% '
+  description: 'Attack Damage + 5% '
   buffIcon: {fileID: 21300000, guid: 823ac97d6d8e4ca45842ae7b703538d0, type: 3}
-  rarity: 0
-  attackDamageIncrease: 10
+  rarity: 2
+  attackDamageIncrease: 5
   attackSpeedIncrease: 0
   movementSpeedIncrease: 0
   healthIncrease: 0
