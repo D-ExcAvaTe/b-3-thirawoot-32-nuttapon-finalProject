@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPosition.z = 0;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && currentDashCooldownTime <= 0)
+        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.Space)) && !isDashing && currentDashCooldownTime <= 0)
         {
             AudioManager.instance.PlaySFX(3);
             
