@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: BuffMoveSpd3
   m_EditorClassIdentifier: 
   buffName: Movement Speed
-  description: 'Movement Speed + 5 '
+  description: 'Movement Speed + 0.5 '
   buffIcon: {fileID: 21300000, guid: e90fa263221382c4783ec338bb25df31, type: 3}
   rarity: 2
   attackDamageIncrease: 0
   attackSpeedIncrease: 0
-  movementSpeedIncrease: 1
+  movementSpeedIncrease: 0.5
   healthIncrease: 0

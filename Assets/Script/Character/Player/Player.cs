@@ -48,7 +48,7 @@ public class Player : Character
         //base.Init(_level, updateHp, baseHp, baseAtk);
         
         Level = _level;
-        MaxExp = 10 + (Level * 10f);
+        MaxExp = 10 + (Level * 15f);
         MaxHealth = (baseHp + (Level * 5)) * (1 + (maxHealthBuffPerLv / 100));
         AttackDamage = (baseAtk + (Level * 2)) * (1 + (attackDamageBuffPerLv / 100));
         MovementSpeed = 1 + movementSpeedBuffPerLv;
