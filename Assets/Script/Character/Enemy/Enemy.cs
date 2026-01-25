@@ -20,15 +20,19 @@ public class Enemy : Character
     [SerializeField] private float powerUpDropChance;
 
     [SerializeField] private EnemyMovement enemyMovement;
+
+    [Header("Color")]
+    [SerializeField] Color32 normalColor;
+    [SerializeField] Color32 glitchColor;
     public override void Start()
     {
         base.Start();
-        healthBar.HealthBarColor(new Color32(255, 0, 0, 255));
         
         if(spawnParticle) Instantiate(spawnParticle, this.transform.position, Quaternion.identity);
         //anim.GetComponent<Animator>();
         
         UpdateEnemyVisuals(Player.CurrentDamageType);
+        healthBar.HealthBarColor(normalColor);
     }
 
     private void OnEnable()
@@ -39,8 +43,16 @@ public class Enemy : Character
     {
         bool isVulnerable = (playerCurrentType == weaknessType);
 
-        if (normalModeVisuals) normalModeVisuals.SetActive(isVulnerable);
-        if (inactiveModeVisuals) inactiveModeVisuals.SetActive(!isVulnerable);
+        if(isVulnerable) healthBar.HealthBarColor(normalColor);
+        else healthBar.HealthBarColor(glitchColor);
+        
+        if (normalModeVisuals)
+            normalModeVisuals.SetActive(isVulnerable);
+        
+
+        if (inactiveModeVisuals)
+            inactiveModeVisuals.SetActive(!isVulnerable);
+        
 
         enemyMovement.UpdateMovementSpeed( playerCurrentType,  weaknessType);
     }

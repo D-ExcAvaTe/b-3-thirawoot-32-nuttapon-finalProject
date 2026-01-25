@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
         Enemy newEnemy = Instantiate(enemies[Random.Range(0,enemies.Count)], spawnPoints[Random.Range(0,spawnPoints.Count)].position, Quaternion.identity);
         //Enemy newEnemy = Instantiate(enemies[Random.Range(0,enemies.Count)], spawnPoints[Random.Range(0,spawnPoints.Count)].position, Quaternion.identity);
         newEnemy.Init(Random.Range( enemyLevel - 3, enemyLevel ));
-    }
+    }   
     private IEnumerator SpawnDelay()
     {
         /*while (BuffInventory.instance.isGamePause)
