@@ -18,6 +18,8 @@ public class Enemy : Character
     [Space]
     [SerializeField] private List<PowerUp> powerUps;
     [SerializeField] private float powerUpDropChance;
+
+    [SerializeField] private EnemyMovement enemyMovement;
     public override void Start()
     {
         base.Start();
@@ -39,6 +41,8 @@ public class Enemy : Character
 
         if (normalModeVisuals) normalModeVisuals.SetActive(isVulnerable);
         if (inactiveModeVisuals) inactiveModeVisuals.SetActive(!isVulnerable);
+
+        enemyMovement.UpdateMovementSpeed( playerCurrentType,  weaknessType);
     }
     public override void Update()
     {
@@ -58,7 +62,8 @@ public class Enemy : Character
         MovementSpeed = 1 + movementSpeedBuffPerLv;
         AttackSpeed = 1.5f + attackSpeedBuffPerLv;
 
-        if (updateHp) Health = MaxHealth;
+        if (updateHp)
+            Health = MaxHealth;
 
         //Debug.Log($"{this.name} level = {Level} , Hp = {Health}/{MaxHealth}, Damage = {AttackDamage}, Max EXP = {MaxExp}, exp = {Exp} ");
 
@@ -74,11 +79,15 @@ public class Enemy : Character
 
         //anim.SetTrigger("HurtTrigger");
 
+        enemyMovement.UpdateOverhealSpeed(CurrentOverHeal > 0f);
+        Debug.Log($"Updated overhealspeed current:{CurrentOverHeal} result{CurrentOverHeal>0}");
+        
         if (IsDead())
         {
             deathFeedback.PlayFeedbacks();
             Destroy(this.gameObject);
         }
+        
     }
     public void OnTriggerStay2D(Collider2D other)
     {

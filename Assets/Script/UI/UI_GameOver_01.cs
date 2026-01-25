@@ -7,7 +7,7 @@ public class UI_GameOver_01 : MonoBehaviour
 {
     [SerializeField] Player player;
     [SerializeField] GameObject panel;
-
+    [SerializeField] private string sceneName;
     private void Update()
     {
         panel.SetActive(player.IsDead());
@@ -21,6 +21,6 @@ public class UI_GameOver_01 : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene(sceneName);
     }
 }

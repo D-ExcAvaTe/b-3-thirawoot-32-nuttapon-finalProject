@@ -108,13 +108,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccfde987943704e47878bb1ec11b39b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.1
+  moveSpeed: 0.9
   stopDistance: 1.5
   avoidanceRadius: 2
   detectionRadius: 999
   randomMoveRadius: 3
   randomMoveInterval: 2
   player: {fileID: 0}
+  glitchSpeedMultiplier: 0.15
+  overhealSpeedMultiplier: 1.25
 --- !u!114 &7196943526527513067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,7 +143,7 @@ MonoBehaviour:
   attackSpeedBuffPerLv: 0
   movementSpeedBuffPerLv: 0
   maxHealthBuffPerLv: 0
-  hitParticle: {fileID: 5352824496971076551, guid: d4f04e5d2c5afe546940e027e6ba97c8, type: 3}
+  hitParticle: {fileID: 5352824496971076551, guid: 76f153af1f3d5f943a2cdbe9ceadc34d, type: 3}
   healParticle: {fileID: 2314263955532508957, guid: 65ea7ef91da7b754092f7d998eb13654, type: 3}
   spawnParticle: {fileID: 7201196108067636710, guid: 028861ec401032642b4f55d5286d38b1, type: 3}
   deathParticle: {fileID: 6510125619236422602, guid: 6d7b01bdef4c9d44596d7108af762e72, type: 3}
@@ -158,6 +160,7 @@ MonoBehaviour:
   - {fileID: 274956053551261723, guid: 2fbfed39032473f46a93957a0b66cacf, type: 3}
   - {fileID: 7379491148178083416, guid: 052be6c3ac234d84ea3dfee96067713b, type: 3}
   powerUpDropChance: 10
+  enemyMovement: {fileID: 5879917044542032292}
 --- !u!70 &8881166889792113760
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

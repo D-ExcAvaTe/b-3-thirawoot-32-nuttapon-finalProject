@@ -19,6 +19,14 @@ public class EnemyMovement : MonoBehaviour
 
     [SerializeField] private Player player;
 
+    
+    
+    [Header("Extra speed settings")]
+    [SerializeField] private float glitchSpeedMultiplier = 0.5f;
+    private float currentGlitchSpeedMultiplier;
+    
+    [SerializeField] private float overhealSpeedMultiplier = 1.5f;
+    private float currentOverhealSpeedMultiplier;
     void Start()
     {
         player = FindObjectOfType<Player>();
@@ -105,7 +113,7 @@ public class EnemyMovement : MonoBehaviour
     {
         moveDirection = moveDirection.normalized;
 
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
+        transform.position += moveDirection * (moveSpeed*( 1f + (currentGlitchSpeedMultiplier+currentOverhealSpeedMultiplier))) * Time.deltaTime;
     }
 
     void FlipEnemy()
@@ -122,5 +130,17 @@ public class EnemyMovement : MonoBehaviour
             isFlipped = false;
         }
         transform.localScale = localScale;
+    }
+
+    public void UpdateMovementSpeed(DamageType _playerCurrentType,DamageType _weaknessType)
+    {
+        if (_weaknessType != _playerCurrentType) currentGlitchSpeedMultiplier = glitchSpeedMultiplier;
+        else currentGlitchSpeedMultiplier = 0;
+    }
+
+    public void UpdateOverhealSpeed(bool isOverheal)
+    {
+        if (isOverheal) currentOverhealSpeedMultiplier = overhealSpeedMultiplier;
+        else currentOverhealSpeedMultiplier = 0;
     }
 }
