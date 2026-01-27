@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.Space)) && !isDashing && currentDashCooldownTime <= 0)
         {
-            AudioManager.instance.PlaySFX(3);
+           // AudioManager.instance.PlaySFX(3);
             
             Instantiate(dashParticle, this.transform.position, Quaternion.identity);
             

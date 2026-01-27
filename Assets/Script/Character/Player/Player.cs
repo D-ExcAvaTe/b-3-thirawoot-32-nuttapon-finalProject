@@ -139,7 +139,7 @@ public class Player : Character
     public override void OnDead()
     {
         MovementSpeed = 0;
-        AudioManager.instance.PlaySFX(0);
+        //AudioManager.instance.PlaySFX(0);
     }
 
     public void PowerUp(float _heal)

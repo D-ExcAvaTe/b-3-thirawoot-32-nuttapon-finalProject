@@ -126,7 +126,7 @@ public class Enemy : Character
     {
         Instantiate(deathParticle, this.transform.position, Quaternion.identity);
         
-        AudioManager.instance.PlaySFX(1);
+        //AudioManager.instance.PlaySFX(1);
 
         if (powerUpDropChance >= Random.Range(0, 100))
             Instantiate(powerUps[Random.Range(0, powerUps.Count)], this.transform.position, Quaternion.identity);

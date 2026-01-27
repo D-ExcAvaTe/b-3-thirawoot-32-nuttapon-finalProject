@@ -762,7 +762,7 @@ AudioSource:
   m_GameObject: {fileID: 171137614}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -3165942800488051908, guid: 7e984f512e89b60468e829489e8883e3, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
@@ -12427,11 +12427,11 @@ AudioSource:
   m_GameObject: {fileID: 1538041952}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -2273146209696275378, guid: 7e984f512e89b60468e829489e8883e3, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.05
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -12617,16 +12617,7 @@ MonoBehaviour:
   sfxSource: {fileID: 171137616}
   bgmSource: {fileID: 1538041954}
   ambientSource: {fileID: 292003102}
-  sfxClips:
-  - {fileID: 8300000, guid: b6edbae38f684ae439c3b9bfdb88ecc1, type: 3}
-  - {fileID: 8300000, guid: bdf60c872a96b3d4fa4ce641fe3d4a18, type: 3}
-  - {fileID: 8300000, guid: dc8ed3ead4f8b6d429627d82fe476ec5, type: 3}
-  - {fileID: 8300000, guid: 9f001f5201851e74fb29e6558d35d795, type: 3}
-  - {fileID: 8300000, guid: a07ccabd02b9b34418377ec7040c7a34, type: 3}
-  - {fileID: 8300000, guid: 9c7943dbff740be45be4a9a1809b3e57, type: 3}
-  - {fileID: 8300000, guid: c613f2db024199f4ea7f4f213a1ddffe, type: 3}
-  - {fileID: 8300000, guid: 42ade0e1205452d4cba7156a8f214332, type: 3}
-  - {fileID: 8300000, guid: 6a3d34c5168a149419e224f7ce1c1290, type: 3}
+  sfxClips: []
   bgmClip: {fileID: 8300000, guid: 3ccedcc0caf0f214da6258a604862160, type: 3}
   ambientClip: {fileID: 8300000, guid: 6a9351d3eb4f61c4db52806b4e4c1209, type: 3}
 --- !u!114 &1603079152
@@ -12643,8 +12634,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: MoreMountains.Tools::MoreMountains.Tools.MMSoundManager
   AutomaticallyUnparentOnAwake: 1
   settingsSo: {fileID: 11400000, guid: 07ea3ff88e1ecb84d91f58aa804badc6, type: 2}
-  AudioSourcePoolSize: 10
-  PoolCanExpand: 1
+  AudioSourcePoolSize: 30
+  PoolCanExpand: 0
 --- !u!1 &1611513261
 GameObject:
   m_ObjectHideFlags: 0
@@ -16139,9 +16130,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3478140133296968432, guid: 3ff531e2dd35be349b3a697db5254c49, type: 3}
+      propertyPath: managedReferences[3981408023364502033].MaxVolume
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3478140133296968432, guid: 3ff531e2dd35be349b3a697db5254c49, type: 3}
+      propertyPath: managedReferences[3981408023364502033].MinVolume
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 5822750191023280926, guid: 3ff531e2dd35be349b3a697db5254c49, type: 3}
       propertyPath: m_Name
       value: MainCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 8735409615489130533, guid: 3ff531e2dd35be349b3a697db5254c49, type: 3}
+      propertyPath: managedReferences[3981408023364502033].MaxVolume
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8735409615489130533, guid: 3ff531e2dd35be349b3a697db5254c49, type: 3}
+      propertyPath: managedReferences[3981408023364502033].MinVolume
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

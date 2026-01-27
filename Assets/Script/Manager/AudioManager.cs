@@ -44,7 +44,7 @@ public class AudioManager : MonoBehaviour
         PlayAmbient();
     }
 
-    public void PlaySFX(int sfxIndex)
+    private void PlaySFX(int sfxIndex)
     {
         if (sfxClipDictionary.TryGetValue(sfxIndex, out AudioClip clip))
         {

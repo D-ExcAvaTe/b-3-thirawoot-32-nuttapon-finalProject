@@ -235,8 +235,8 @@ MonoBehaviour:
         PoolSize: 10
         UseLegacyEventsMode: 0
         StopSoundOnFeedbackStop: 1
-        MinVolume: 0.4
-        MaxVolume: 0.5
+        MinVolume: 0.1
+        MaxVolume: 0.2
         MinPitch: 0.9
         MaxPitch: 1.1
         SfxAudioMixerGroup: {fileID: -3165942800488051908, guid: 7e984f512e89b60468e829489e8883e3, type: 2}
@@ -744,8 +744,8 @@ MonoBehaviour:
         PoolSize: 10
         UseLegacyEventsMode: 0
         StopSoundOnFeedbackStop: 1
-        MinVolume: 0.6
-        MaxVolume: 0.7
+        MinVolume: 0.35
+        MaxVolume: 0.5
         MinPitch: 0.9
         MaxPitch: 1.1
         SfxAudioMixerGroup: {fileID: -3165942800488051908, guid: 7e984f512e89b60468e829489e8883e3, type: 2}
