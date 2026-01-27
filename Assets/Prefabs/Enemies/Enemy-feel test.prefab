@@ -143,7 +143,7 @@ MonoBehaviour:
   attackSpeedBuffPerLv: 0
   movementSpeedBuffPerLv: 0
   maxHealthBuffPerLv: 0
-  hitParticle: {fileID: 5352824496971076551, guid: 76f153af1f3d5f943a2cdbe9ceadc34d, type: 3}
+  hitParticle: {fileID: 5352824496971076551, guid: b97dc6827be3cca4d91a4de57871fc31, type: 3}
   healParticle: {fileID: 2314263955532508957, guid: 65ea7ef91da7b754092f7d998eb13654, type: 3}
   spawnParticle: {fileID: 7201196108067636710, guid: 028861ec401032642b4f55d5286d38b1, type: 3}
   deathParticle: {fileID: 6510125619236422602, guid: 6d7b01bdef4c9d44596d7108af762e72, type: 3}
