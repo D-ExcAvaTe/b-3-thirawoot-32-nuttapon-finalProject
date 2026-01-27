@@ -46638,6 +46638,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 140103600683310090, guid: 3ff531e2dd35be349b3a697db5254c49, type: 3}
+      propertyPath: baseAtk
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 140103600683310090, guid: 3ff531e2dd35be349b3a697db5254c49, type: 3}
       propertyPath: hitFeedback
       value: 
       objectReference: {fileID: 6981910572337358745}
