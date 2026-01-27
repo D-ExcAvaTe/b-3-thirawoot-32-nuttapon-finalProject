@@ -29,7 +29,9 @@ public class EnemySpawner : MonoBehaviour
     {
         Enemy newEnemy = Instantiate(enemies[Random.Range(0,enemies.Count)], spawnPoints[Random.Range(0,spawnPoints.Count)].position, Quaternion.identity);
         //Enemy newEnemy = Instantiate(enemies[Random.Range(0,enemies.Count)], spawnPoints[Random.Range(0,spawnPoints.Count)].position, Quaternion.identity);
-        newEnemy.Init(Random.Range( enemyLevel - 3, enemyLevel ));
+        int r = Random.Range(enemyLevel - 3, enemyLevel);
+        r = Mathf.Clamp(r, 1, int.MaxValue);
+        newEnemy.Init(r);
     }   
     private IEnumerator SpawnDelay()
     {
@@ -56,9 +58,12 @@ public class EnemySpawner : MonoBehaviour
         waitTimer = waitTime;
         Debug.Log("New wave");
         wave++;
-        maxEnemy = (wave * 15) + 5;
+        //maxEnemy = (wave * 15) + 5;
+        maxEnemy = 15 + 4 * (int)Mathf.Pow(wave, 0.5f);
         currentEnemies = maxEnemy;
-        enemyLevel = ( wave + 1 ) * 2; 
+        //enemyLevel = 8 * (int)Mathf.Pow(wave, 0.5f); 
+        //enemyLevel = 2 * (int)Mathf.Pow(wave, 1.25f) - 2 * wave + 1; 
+        enemyLevel = (int)Mathf.Pow(wave, 1.5f); 
         StartCoroutine(SpawnDelay());
     }
     private IEnumerator WaveLoop()

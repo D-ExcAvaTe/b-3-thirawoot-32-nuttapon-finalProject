@@ -69,7 +69,7 @@ public class Enemy : Character
         
         Level = _level;
         MaxExp = 10 + (Level * 10f);
-        MaxHealth = (baseHp + (Level * 5)) * (1 + (maxHealthBuffPerLv / 100));
+        MaxHealth = (baseHp + (2 * Mathf.Pow(Level, 1.5f))) * (1 + (maxHealthBuffPerLv / 100));
         AttackDamage = (baseAtk + (Level * 2)) * (1 + (attackDamageBuffPerLv / 100));
         MovementSpeed = 1 + movementSpeedBuffPerLv;
         AttackSpeed = 1.5f + attackSpeedBuffPerLv;

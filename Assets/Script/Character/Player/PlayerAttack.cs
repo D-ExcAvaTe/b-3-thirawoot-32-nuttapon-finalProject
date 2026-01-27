@@ -11,7 +11,7 @@ public class PlayerAttack : AreaOfAttack
             target.TakeDamage(damage, damageType);
             if( target.IsDead())
             {
-                owner.GiveExp(target.Level * 5);
+                owner.GiveExp(target.Level * 1.25f + 2);
             }
             //Destroy(this.gameObject);
         }

@@ -51814,7 +51814,7 @@ MonoBehaviour:
   currentOverheal: 0
   maxOverHealMultiplier: 3
   baseHp: 10
-  baseAtk: 1
+  baseAtk: 2
   attackDamageBuffPerLv: 0
   attackSpeedBuffPerLv: 2
   movementSpeedBuffPerLv: 0
