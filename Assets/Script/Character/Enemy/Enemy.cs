@@ -39,6 +39,12 @@ public class Enemy : Character
     {
         Player.OnPlayerDamageTypeChanged += UpdateEnemyVisuals;
     }
+
+    private void OnDisable()
+    {
+        Player.OnPlayerDamageTypeChanged -= UpdateEnemyVisuals;
+    }
+
     private void UpdateEnemyVisuals(DamageType playerCurrentType)
     {
         bool isVulnerable = (playerCurrentType == weaknessType);
@@ -118,8 +124,6 @@ public class Enemy : Character
     }
     public override void OnDead()
     {
-        Player.OnPlayerDamageTypeChanged -= UpdateEnemyVisuals;
-        
         Instantiate(deathParticle, this.transform.position, Quaternion.identity);
         
         AudioManager.instance.PlaySFX(1);

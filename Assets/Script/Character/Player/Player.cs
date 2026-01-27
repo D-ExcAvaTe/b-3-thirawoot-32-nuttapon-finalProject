@@ -52,6 +52,8 @@ public class Player : Character
     private Collider2D colCone, colLine;
     public override void Start()
     {
+        OnPlayerDamageTypeChanged = null;
+        
         base.Start();
         Init(1, true);
         playerController = GetComponent<PlayerController>();
