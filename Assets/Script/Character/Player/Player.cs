@@ -266,9 +266,9 @@ public class Player : Character
         Color32 color = (type == DamageType.Past) ? dtPastColor : dtFutureColor;
         GetAttackPatternObj().sr.color = color;
 
-        DamageIndicator textIndicator = Instantiate(damageIndicatorPrefab, transform.position, Quaternion.identity);
-        string indicatorText = $"{pattern} ({type})";
-        textIndicator.Initialize(indicatorText, false, true);
+        // DamageIndicator textIndicator = Instantiate(damageIndicatorPrefab, transform.position, Quaternion.identity);
+        // string indicatorText = $"{pattern} ({type})";
+        // textIndicator.Initialize(indicatorText, false, true);
     }
 
     private AreaOfAttack GetAttackPatternObj()
